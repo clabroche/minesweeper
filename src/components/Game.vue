@@ -139,7 +139,11 @@ export default {
     },
     async putFlag(cell, $event) {
       if ($event) $event.preventDefault()
-      if(this.drag) return
+      if(this.drag || this.flagActivate) return
+      this.flagActivate= true 
+      setTimeout(() => {
+        this.flagActivate = false
+      }, 150);
       await Game.putFlag(this.$route.params.id, cell)
     },
   }
