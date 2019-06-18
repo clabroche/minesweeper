@@ -47,11 +47,7 @@ export default {
   beforeDestroy() {
     clearInterval(this.timeInterval)
   },
-  async created() {
-    console.log('created')
-  },
   async mounted() {
-    console.log(process.env)
     this.ws = new WebSocket(process.env.VUE_APP_SOCKET);
     this.loadGame()
     this.ws.onopen =  () => {
@@ -61,10 +57,9 @@ export default {
       const game = JSON.parse(ev)
       this.game = game
       this.map = game.map
+      if(game.gameOver) clearInterval(this.timeInterval)
     }
-    this.timeInterval = setInterval(() => {
-      this.game.time++
-    },1000)
+    
   },
   methods: {
     async loadGame() {
@@ -72,6 +67,11 @@ export default {
         .catch(() => this.$router.push({name: 'games'}))
       this.game = game
       this.map = game.map
+      if(!game.gameOver) {
+        this.timeInterval = setInterval(() => {
+          this.game.time++
+        },1000)
+      }
     },
     increaseSize() {
       this.changeSize(this.size + 6)
@@ -94,7 +94,8 @@ export default {
       localStorage.setItem('size', JSON.stringify(this.size))
     },
     async reset() {
-      const id = await Game.create() 
+      const {width, height, nbMines} = this.game
+      const id = await Game.create(width, height, nbMines) 
       this.$router.push({name: 'game', params: {id}})
       this.loadGame()
     },

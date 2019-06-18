@@ -1,13 +1,13 @@
-function Game() {
+function Game(width = 20, height = 20, mines = 100) {
   this.timeInterval = null
   this.time = 0
   this.map = []
   this.success = true
   this.gameOver  = false
-  this.nbMines = 20
+  this.nbMines = +mines
   this.nbFlags = this.nbMines
-  this.width = 30
-  this.height = 30
+  this.width = +width
+  this.height = +height
 
   this.launchTime()
   this.generateMap()
@@ -60,7 +60,7 @@ Game.prototype.launchTime = function() {
 
 Game.prototype.putFlag = function(cell) {
   cell = this.map[cell.x][cell.y]
-  if(this.nbFlags > 0) {
+  if(this.nbFlags > 0 && !cell.active) {
     this.nbFlags = cell.flag ? this.nbFlags + 1 : this.nbFlags - 1
     cell.flag = !cell.flag
   }
@@ -73,7 +73,6 @@ Game.prototype.setGameOver = function() {
   if(this.gameOver) return 
   this.end()
   this.gameOver = true
-  console.log('gameOver')
   clearInterval(this.timeInterval)
 }
 
