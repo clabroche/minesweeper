@@ -33,6 +33,7 @@
     "uws": "^100.0.1",
     "vue": "^2.6.10",
     "vue-dragscroll": "^1.8.3",
+    "vue-long-click": "0.0.4",
     "vue-router": "^3.0.3",
     "vue-socket.io": "^2.1.1-b",
     "ws": "^7.0.1"

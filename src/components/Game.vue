@@ -13,7 +13,11 @@
     </div>
     <div class="game-container" v-dragscroll @dragscrollstart="setDrag(true)" @dragscrollend="setDrag(false)">
       <div v-for="(row, x) of map" class="row" :key="'row-' + x">
-        <div v-for="cell of row " class="cell" :class="{active: cell.active, flag: cell.flag}" :style="{width: size + 'px', height: size + 'px' }" @click="activate(cell)" @click.right="putFlag(cell, $event)" :key="cell.x + '-' + cell.y">
+        <div v-for="cell of row " class="cell" :class="{active: cell.active, flag: cell.flag}"
+          :style="{width: size + 'px', height: size + 'px' }"
+          v-longclick="_ => putFlag(cell, $event)"
+          @click="activate(cell)"
+          @click.right="putFlag(cell, $event)" :key="cell.x + '-' + cell.y">
           <div v-if="cell.active && !cell.flag && !cell.mine && cell.number !== 0">{{cell.number}}</div>
           <div v-if="cell.flag"><i class="fas fa-flag"></i></div>
           <div v-if="cell.mine && cell.active && !cell.flag"><i class="fas fa-bomb"></i></div>
@@ -26,6 +30,7 @@
 <script>
 import { dragscroll } from 'vue-dragscroll'
 import Game from '../models/game'
+import { longClickDirective } from 'vue-long-click'
 export default {
   name: 'game',
   components: {
@@ -33,7 +38,8 @@ export default {
   props: {
   },
   directives: {
-    'dragscroll': dragscroll
+    'dragscroll': dragscroll,
+    longclick:  longClickDirective({interval: 10000})
   },
   data() {
     return {
@@ -119,7 +125,7 @@ export default {
       await Game.activate(this.$route.params.id, cell)
     },
     async putFlag(cell, $event) {
-      $event.preventDefault()
+      if ($event) $event.preventDefault()
       await Game.putFlag(this.$route.params.id, cell)
     },
   }
