@@ -112,15 +112,34 @@ Game.prototype.resolveBlank = function(cell) {
     this.map[cell.x][cell.y + 1].active = true
   }
 }
-Game.prototype.putMines = function(nbMines = this.nbMines, retry = 100) {
-  if(!retry) return
+/**
+ * @param {Array} possibilities
+ */
+Game.prototype.putMines = function(nbMines = this.nbMines, possibilities) {
+  if(!possibilities) possibilities = this.getRandomPossibleCoordinates()
   if(nbMines) {
-    const x = Math.floor(Math.random() * this.width)
-    const y = Math.floor(Math.random() * this.height)
-    if(this.map[x][y].mine)  return this.putMines(nbMines, retry - 1)
+    const randomIndex = Math.floor(Math.random() * possibilities.length)
+    const [x,y] = possibilities.splice(randomIndex, 1).pop()
     this.map[x][y].mine = true
-    return this.putMines(nbMines - 1, 100)
+    return this.putMines(nbMines - 1, possibilities)
   }
 }
 
+Game.prototype.getRandomPossibleCoordinates = function() {
+  const possibilities = []
+  for (let x = 0; x < this.width; x++) {
+    for (let y = 0; y < this.height; y++) {
+      possibilities.push([x, y])
+    }
+  }
+  shuffle(possibilities)
+  return possibilities
+}
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 module.exports = Game

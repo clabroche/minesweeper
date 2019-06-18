@@ -88,7 +88,11 @@ export default {
         setTimeout(() => {
           this.drag = false
         }, 100);
-      } else this.drag = true
+      } else {
+        setTimeout(() => {
+          this.drag = true
+        }, 30);
+      }
     },
     save() {
       localStorage.setItem('size', JSON.stringify(this.size))

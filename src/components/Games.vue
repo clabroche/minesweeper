@@ -44,7 +44,7 @@ export default {
       return mines > 0
         && width > 0
         && height > 0
-        && width * height < 2000
+        && width * height < 8100
         && mines < width * height
     }
   }
