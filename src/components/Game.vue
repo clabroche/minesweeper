@@ -51,7 +51,7 @@ export default {
     this.ws = new WebSocket(process.env.VUE_APP_SOCKET);
     this.loadGame()
     this.ws.onopen =  () => {
-        this.ws.send('connected')
+      this.ws.send('currentGame' + this.$route.params.id)
     }
     this.ws.onmessage = ({data:ev}) => {
       const game = JSON.parse(ev)
@@ -59,7 +59,6 @@ export default {
       this.map = game.map
       if(game.gameOver) clearInterval(this.timeInterval)
     }
-    
   },
   methods: {
     async loadGame() {
@@ -72,6 +71,9 @@ export default {
           this.game.time++
         },1000)
       }
+      
+      this.ws.send('currentGame' + this.$route.params.id)
+
     },
     increaseSize() {
       this.changeSize(this.size + 6)

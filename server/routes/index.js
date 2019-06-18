@@ -4,7 +4,13 @@ const bodyParser = require('body-parser')
 const Games = require('../models/games')
 var WebSocketServer = require('ws').Server,
   wss = new WebSocketServer({port: 3030, path:'/game'})
-
+wss.on('connection', ws => {
+  ws.on('message', function(msg)  {
+    if(msg.includes('currentGame')) {
+      this.currentGame = msg.split('currentGame').pop()
+    }
+  })
+})
 router.use(bodyParser.json())
 
 router.post('/games', async function(req, res) {
@@ -41,16 +47,20 @@ router.get('/games/:id', async function(req, res) {
 });
 
 function sendGame(game) {
-  wss.clients.forEach(client => client.send(JSON.stringify({
-    gameOver: game.gameOver,
-    time: game.time,
-    map: game.map,
-    success: game.success,
-    nbMines: game.nbMines,
-    nbFlags: game.nbFlags,
-    width: game.width,
-    height: game.height,
-  })))
+  wss.clients.forEach(client => {
+    if (client.currentGame === game.id) {
+      client.send(JSON.stringify({
+        gameOver: game.gameOver,
+        time: game.time,
+        map: game.map,
+        success: game.success,
+        nbMines: game.nbMines,
+        nbFlags: game.nbFlags,
+        width: game.width,
+        height: game.height,
+      }))
+    }
+  })
 }
 
 module.exports = router;

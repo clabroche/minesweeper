@@ -1,5 +1,7 @@
+const uuidV4 = require('uuid/v4')
 function Game(width = 20, height = 20, mines = 100) {
   this.timeInterval = null
+  this.id = uuidV4()
   this.time = 0
   this.map = []
   this.success = true
