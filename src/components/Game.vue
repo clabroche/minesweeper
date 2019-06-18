@@ -12,7 +12,7 @@
         <div class="add" @click="increaseSize()"> + </div>
       </div>
     </div>
-    <div class="game-container" v-dragscroll="dragActive" @dragscrollstart="setDrag(true)" @dragscrollend="setDrag(false)">
+    <div class="game-container">
       <div v-for="(row, x) of map" class="row" :key="'row-' + x">
         <div v-for="cell of row " class="cell" :class="{active: cell.active, flag: cell.flag}"
           :style="{width: size + 'px', height: size + 'px' }"
