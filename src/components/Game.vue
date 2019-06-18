@@ -79,6 +79,17 @@ export default {
           this.game.time++
         },1000)
       }
+      setTimeout(() => {
+        document.querySelectorAll('.cell').forEach(cell => {
+          cell.oncontextmenu = function(event) {
+            console.log('cell')
+              event.preventDefault();
+              event.stopPropagation(); // not necessary in my case, could leave in case stopImmediateProp isn't available? 
+              event.stopImmediatePropagation();
+              return false;
+          };
+        })
+      }, 10);
       
       this.ws.send('currentGame' + this.$route.params.id)
 
@@ -128,6 +139,7 @@ export default {
     },
     async putFlag(cell, $event) {
       if ($event) $event.preventDefault()
+      if(this.drag) return
       await Game.putFlag(this.$route.params.id, cell)
     },
   }
