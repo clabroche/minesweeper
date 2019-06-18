@@ -5,13 +5,14 @@
       <div class="gameStatus"><i class="fas" :class="{'fa-check': game.success,'fa-times': !game.success }"/> </div>
       <div class="time"><i class="fas fa-clock"/> {{game.time}}</div>
       <div class="restart" v-if="game.gameOver" @click="reset"><i class="fas fa-undo"/> </div>
+      <div class="time"><i class="fas"  :class="{'fa-arrows-alt': dragActive,'fa-lock': !dragActive }" @click="dragActive = !dragActive"/> </div>
       <div class="zoom">
         <div class="subtract" @click="decreaseSize()"> - </div>
         Zoom
         <div class="add" @click="increaseSize()"> + </div>
       </div>
     </div>
-    <div class="game-container" v-dragscroll @dragscrollstart="setDrag(true)" @dragscrollend="setDrag(false)">
+    <div class="game-container" v-dragscroll="dragActive" @dragscrollstart="setDrag(true)" @dragscrollend="setDrag(false)">
       <div v-for="(row, x) of map" class="row" :key="'row-' + x">
         <div v-for="cell of row " class="cell" :class="{active: cell.active, flag: cell.flag}"
           :style="{width: size + 'px', height: size + 'px' }"
@@ -39,10 +40,11 @@ export default {
   },
   directives: {
     'dragscroll': dragscroll,
-    longclick:  longClickDirective({interval: 10000})
+    longclick:  longClickDirective({interval: 10000000000000000})
   },
   data() {
     return {
+      dragActive: true,
       map: [],
       game: {},
       drag: false,
