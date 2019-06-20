@@ -1,6 +1,7 @@
 <template>
   <div class="game-root" ref="gameContainer">
     <div class="header">
+      <div class="home" @click="$router.push({name: 'games'})"><i class="fas fa-home"/> </div>
       <div class="flagRemains"><i class="fas fa-flag"/> {{game.nbFlags}}</div>
       <div class="gameStatus"><i class="fas" :class="{'fa-check': game.success,'fa-times': !game.success }"/> </div>
       <div class="time"><i class="fas fa-clock"/> {{game.time}}</div>
