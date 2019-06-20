@@ -5,7 +5,6 @@
       <div class="gameStatus"><i class="fas" :class="{'fa-check': game.success,'fa-times': !game.success }"/> </div>
       <div class="time"><i class="fas fa-clock"/> {{game.time}}</div>
       <div class="restart" v-if="game.gameOver" @click="reset"><i class="fas fa-undo"/> </div>
-      <div class="time"><i class="fas"  :class="{'fa-arrows-alt': dragActive,'fa-lock': !dragActive }" @click="dragActive = !dragActive"/> </div>
       <div class="zoom">
         <div class="subtract" @click="decreaseSize()"> - </div>
         Zoom
@@ -44,7 +43,6 @@ export default {
   },
   data() {
     return {
-      dragActive: true,
       map: [],
       game: {},
       drag: false,
