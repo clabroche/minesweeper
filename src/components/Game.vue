@@ -14,7 +14,7 @@
     </div>
     <div class="game-container">
       <div v-for="(row, x) of map" class="row" :key="'row-' + x">
-        <div v-for="cell of row " class="cell" :class="{active: cell.active, flag: cell.flag}"
+        <div v-for="cell of row " class="cell" :class="{'cell-active': cell.active, 'cell-flag': cell.flag, 'cell-hover': !cell.active}"
           :style="{width: size + 'px', height: size + 'px' }"
           v-longclick="_ => putFlag(cell, $event)"
           @click="activate(cell)"
@@ -181,22 +181,28 @@ export default {
     overflow: auto;
     height: calc(100vh - 50px);
   }
-  .cell {
-    width: 40px;
-    height: 40px;
-    border: 2px solid #353b4f;
-    background-color: rgba(255,255,255, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-    &.active {
-      background-color: rgba(255,255,255, 0.2);
-    }
-    &.flag {
-      background-color: transparent;
-      color: #5ff386;
-    }
-  }
+}
+.cell {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #353b4f;
+  background-color: rgba(255,255,255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  transform: translateZ(0);
+  transition-property: background-color;
+  transition: 300ms;
+}
+.cell-active {
+  background-color: rgba(255,255,255, 0.2);
+}
+.cell-flag {
+  background-color: transparent;
+  color: #5ff386;
+}
+.cell-hover:hover {
+  background-color: #5b5e6b
 }
 </style>
