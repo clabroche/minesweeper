@@ -16,7 +16,7 @@
       <div v-for="(row, x) of map" class="row" :key="'row-' + x">
         <div v-for="cell of row " class="cell" :class="{'cell-active': cell.active, 'cell-flag': cell.flag, 'cell-hover': !cell.active}"
           :style="{width: size + 'px', height: size + 'px' }"
-          v-longclick="_ => putFlag(cell, $event)"
+          v-longclick="_ => putFlag(cell)"
           @click="activate(cell)"
           @click.right="putFlag(cell, $event)" :key="cell.x + '-' + cell.y">
           <div v-if="cell.active && !cell.flag && !cell.mine && cell.number !== 0">{{cell.number}}</div>
@@ -143,7 +143,7 @@ export default {
       this.flagActivate= true 
       setTimeout(() => {
         this.flagActivate = false
-      }, 150);
+      }, 400);
       await Game.putFlag(this.$route.params.id, cell)
     },
   }
