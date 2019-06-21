@@ -1,15 +1,15 @@
 <template>
   <div class="game-root" ref="gameContainer">
     <div class="header">
-      <div class="home" @click="$router.push({name: 'games'})"><i class="fas fa-home"/> </div>
+      <button class="home" @click="$router.push({name: 'games'})"><i class="fas fa-home"/> </button>
       <div class="flagRemains"><i class="fas fa-flag"/> {{game.nbFlags}}</div>
       <div class="gameStatus"><i class="fas" :class="{'fa-check': game.success,'fa-times': !game.success }"/> </div>
       <div class="time"><i class="fas fa-clock"/> {{game.time}}</div>
       <div class="restart" v-if="game.gameOver" @click="reset"><i class="fas fa-undo"/> </div>
       <div class="zoom">
-        <div class="subtract" @click="decreaseSize()"> - </div>
+        <button class="subtract" @click="decreaseSize()"> <i class="fas fa-minus"></i> </button>
         Zoom
-        <div class="add" @click="increaseSize()"> + </div>
+        <button class="add" @click="increaseSize()"> <i class="fas fa-plus"></i> </button>
       </div>
     </div>
     <div class="game-container">
@@ -157,21 +157,19 @@ export default {
     align-items: center;
     justify-content: space-around;
     box-shadow: 0px 2px 10px 2px black;
+    button {
+      width: 30px;
+      height: 30px;
+    }
     .zoom {
       display: flex;
       align-items: center;
-      font-size: 1.1em;
       font-weight: bold;
-      div {
-        width: 30px;
-        height: 30px;
-        border-radius: 100%;
-        background-color: #4d5574;
+      button {
+        margin: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-right: 5px;
-        margin-left: 5px;
       }
     }
   }
@@ -182,17 +180,19 @@ export default {
   }
 }
 .cell {
-  width: 40px;
-  height: 40px;
-  border: 2px solid #353b4f;
-  background-color: rgba(255,255,255, 0.3);
-  display: flex;
-  justify-content: center;
   align-items: center;
-  user-select: none;
+  background-color: rgba(255,255,255, 0.3);
+  border-radius: 4px;
+  border: 2px solid #353b4f;
+  display: flex;
+  font-weight: 410;
+  height: 40px;
+  justify-content: center;
   transform: translateZ(0);
   transition-property: background-color;
   transition: 300ms;
+  user-select: none;
+  width: 40px;
 }
 .cell-active {
   background-color: rgba(255,255,255, 0.2);

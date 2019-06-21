@@ -1,6 +1,6 @@
 <template>
-  <div class="games-root">
-
+  <div class="games-root" ref="preview">
+    <h1>Create a game</h1>
     <div class="preset">
       <button class="easy" @click="setGame(20, 20, 20)">Easy</button>
       <button class="medium" @click="setGame(25, 25, 100)">Medium</button>
@@ -12,7 +12,13 @@
       <div class="width">
         <input type="number" v-model="width">
       </div>
-      <div class="preview">
+      <div class="mines">
+        <div class="mines-content">
+          Number of mines
+          <input type="number" v-model="mines">
+        </div>
+      </div>
+      <div class="preview" >
         <div v-for="(row, x) of preview" class="row" :key="'row-' + x">
           <div
             v-for="(cell, y) of row"
@@ -26,9 +32,7 @@
         <input type="number" v-model="height">
       </div>
     </div>
-
     <button @click="createGame" :disabled="!computedValidity">Create</button>
-
   </div>
 </template>
 
@@ -52,7 +56,7 @@ export default {
     },
     mines() {
       this.preventWrongInputs()
-    }
+    },
   },
   computed: {
     computedValidity() {
@@ -60,8 +64,8 @@ export default {
     },
     preview() {
       let nbBomb = 0
-      return Array(+this.width).fill(false).map(_ => {
-        return Array(+this.height).fill(false).map(_ => {
+      return Array(+this.width).fill(false).map(() => {
+        return Array(+this.height).fill(false).map(() => {
           if(nbBomb < this.mines) {
             nbBomb ++
             return true
@@ -102,6 +106,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
+h1 {
+  text-align: center;
+}
+.mines {
+  position: absolute;
+  margin: auto;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .mines-content {
+    width: 80%;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    background-color:rgba(0,0,0,0.4);
+    filter: blur(0px);
+    padding: 10px;
+  }
+}
 .height {
   flex-direction: column;
   justify-content: center;
@@ -109,13 +134,11 @@ export default {
   position: absolute;
   top: -300px;
   left: -40px;
-  width: 20px; height: 290px; position: relative; background: white;
+  width: 20px; height: 290px; position: relative; background: #029c88;
   input {
     text-align: center;
     width: 40px;
-    height: 30px;
-    border: none;
-    height: 18px;
+    height: 20px;
     left: -11px;
     position: absolute;
   }
@@ -127,7 +150,7 @@ export default {
   border-left: 10px solid #353b4f;
 }
 .height:before {
-  content: ""; position: absolute; left: 0px; bottom: -20px; width: 0; height: 0; border-left: 10px solid transparent;border-right: 10px solid transparent; border-bottom: 10px solid transparent; border-top: 10px solid white;
+  content: ""; position: absolute; left: 0px; bottom: -20px; width: 0; height: 0; border-left: 10px solid transparent;border-right: 10px solid transparent; border-bottom: 10px solid transparent; border-top: 10px solid #029c88;
 } 
 
 .width {
@@ -135,20 +158,19 @@ export default {
   display: flex;
   position: absolute;
   top: 340px;
-  width: 290px; height: 20px; position: relative; background: white;
+  width: 290px; height: 20px; position: relative; background: #029c88;
   input {
     text-align: center;
     width: 40px;
-    height: 30px;
-    border: none;
-    height: 18px;
+    height: 20px;
+    padding: 0;
   }
 }
 .width:after {
-  content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 0; border-right: 10px solid white; border-top: 10px solid #353b4f; border-bottom: 10px solid #353b4f;
+  content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 0; border-right: 10px solid #029c88; border-top: 10px solid #353b4f; border-bottom: 10px solid #353b4f;
 }
 .width:before {
-  content: ""; position: absolute; right: -10px; bottom: 0; width: 0; height: 0; border-left: 10px solid white; border-top: 10px solid transparent; border-bottom: 10px solid transparent;
+  content: ""; position: absolute; right: -10px; bottom: 0; width: 0; height: 0; border-left: 10px solid #029c88; border-top: 10px solid transparent; border-bottom: 10px solid transparent;
 } 
 .games-root {
   position: relative;
@@ -178,6 +200,7 @@ export default {
 }
 
 .cell {
+  border-radius: 4px;
   border: 1px solid  #353b4f;
   box-sizing: border-box;
   width: 5px;
@@ -186,6 +209,7 @@ export default {
 }
 .preview-container {
   height: 350px;
+
 }
 .preset {
   display: flex;
@@ -194,4 +218,19 @@ export default {
     padding: 0;
   }
 }
+
+@media (max-width: 400px)  {
+  .preview-container {
+    transform: scale(0.8)!important
+  }
+  input {
+    transform: scale(1.4)
+  }
+  .mines-content {
+    font-size: 1.6em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
 </style>
