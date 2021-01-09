@@ -16,5 +16,5 @@ FROM alpine:3.11
 RUN apk --no-cache add nodejs
 WORKDIR /minesweeper
 
-COPY --from=builder /minesweeper/server ./server
+COPY --from=builder /minesweeper/server ./
 CMD ["node", "bin/www"]
