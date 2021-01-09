@@ -1,6 +1,6 @@
 {
   "name": "@iryu54/minesweeper",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "server/bin/www",
   "bin": {
     "mineSweeper": "./server/bin/www"
