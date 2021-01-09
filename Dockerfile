@@ -17,4 +17,4 @@ RUN apk --no-cache add nodejs
 WORKDIR /minesweeper
 
 COPY --from=builder /minesweeper/server ./server
-CMD ["node", "server.js"]
+CMD ["node", "bin/www"]
