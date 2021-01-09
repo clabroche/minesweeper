@@ -6,6 +6,7 @@
     "mineSweeper": "./server/bin/www"
   },
   "scripts": {
+    "postinstall": "cd server && npm i",
     "serve": "stack-monitor ./stack.js",
     "server": "cd server && nodemon bin/www",
     "client": "vue-cli-service serve",

@@ -1,4 +1,5 @@
-const uuidV4 = require('uuid/v4')
+const uuid = require('uuid')
+const uuidV4 = uuid.v4
 function Game(width = 20, height = 20, mines = 100) {
   this.timeInterval = null
   this.id = uuidV4()
