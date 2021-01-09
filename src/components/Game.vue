@@ -55,7 +55,7 @@ export default {
     clearInterval(this.timeInterval)
   },
   async mounted() {
-    this.ws = new WebSocket(process.env.VUE_APP_SOCKET);
+    this.ws = new WebSocket(process.env.VUE_APP_SOCKET + '/game');
     this.loadGame()
     this.ws.onopen =  () => {
       this.ws.send('currentGame' + this.$route.params.id)

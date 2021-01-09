@@ -1,15 +1,24 @@
-const rp = require('request-promise')
+const axios = require('axios').default
+const host = process.env.VUE_APP_HOST
+if(!host) {
+  throw new Error('VUE_APP_HOST is not set')
+}
+const instance = axios.create({
+  baseURL: host
+})
 export default  {
-  get(id) {
-    return rp.get(process.env.VUE_APP_HOST + '/api/v1/games/' + id, {json:true})
+  async get(id) {
+    const {data: game} = await instance.get('/api/v1/games/' + id)
+    return game
   },
-  create(width, height, mines) {
-    return rp.post(process.env.VUE_APP_HOST + '/api/v1/games/', {json:true, body: {width, height, mines}})
+  async create(width, height, mines) {
+    const { data: game } = await  instance.post('/api/v1/games/', {width, height, mines})
+    return game
   },
   activate(id, cell) {
-    return rp.post(process.env.VUE_APP_HOST + '/api/v1/games/' + id + '/activate/' , {json:true, body: cell})
+    return instance.post('/api/v1/games/' + id + '/activate/' , cell)
   },
   putFlag(id, cell) {
-    return rp.post(process.env.VUE_APP_HOST + '/api/v1/games/' + id + '/putFlag/' , {json:true, body: cell})
+    return instance.post('/api/v1/games/' + id + '/putFlag/' , cell)
   }
 }

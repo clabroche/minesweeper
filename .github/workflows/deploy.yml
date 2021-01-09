@@ -18,4 +18,5 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USER }}
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
         registry: docker.pkg.github.com
+        buildargs: --build-arg VUE_APP_HOST=${{secrets.VUE_APP_HOST}} --build-arg VUE_APP_SOCKET=${{secrets.VUE_APP_SOCKET}}
         tags: "latest,${{ env.STATE_RELEASE_VERSION }}"

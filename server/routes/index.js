@@ -3,7 +3,8 @@ var router = express.Router();
 const bodyParser = require('body-parser')
 const Games = require('../models/games')
 var WebSocketServer = require('ws').Server,
-  wss = new WebSocketServer({port: 3030, path:'/game'})
+wss = new WebSocketServer({port: +process.env.SOCKET_PORT, path:'/game'})
+console.log('Socket is ready on port', +process.env.SOCKET_PORT)
 wss.on('connection', ws => {
   ws.on('message', function(msg)  {
     if(msg.includes('currentGame')) {

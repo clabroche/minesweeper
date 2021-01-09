@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-const open = require('opn')
 /**
  * Module dependencies.
  */
